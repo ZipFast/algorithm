@@ -5,7 +5,7 @@ class BSTNode(object):
         self.left = None
         self.parent = None 
     
-class BST:
+class BST(object):
     def __init__(self):
         self.root = None 
     
@@ -13,6 +13,7 @@ class BST:
         new = BSTNode(t) 
         if self.root is None:
             self.root = new 
+            node = self.root 
         else:
             node = self.root
             while True:
@@ -30,6 +31,7 @@ class BST:
                         new.parent = node 
                         break 
                     node = node.right 
+        return node  
     
     def find(self, t):
         node = self.root 
@@ -47,19 +49,22 @@ class BST:
         node = self.root 
         if node is None:
             return 
+        # move to the leftmost  
         while node.left is not None:
             node = node.left
+        # promote the node's right subtree 
         if node.parent is not None:
             node.parent.left = node.right 
+        # if node's parent is None, the root is the smallest element 
         else: 
             self.root = node.right 
         if node.right is not None:
             node.right.parent = node.parent 
         parent = node.parent 
-        if parent is not None:
-            parent.left = None 
-            parent.right = None 
-            parent.parent = None 
+        node.parent = None 
+        node.left = None 
+        node.right = None 
+        return node, parent 
 
     def __str__(self):
         if self.root is None: return '<empty tree>'
